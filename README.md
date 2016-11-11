@@ -1,0 +1,1 @@
+The purpose of this repo is to create a python based framework for text-based adventure games.  This will be primarily focused around class usage.  In the future hopefully there will be some form of twitter integration.
