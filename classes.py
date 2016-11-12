@@ -38,15 +38,32 @@ class Player():
             print('You got {}'.format(item))
             del self.room.items[item]
 
+    def view_room(self):
+        '''allows player to get information about a room'''
+        print(self.room.description)
+
+    def move_rooms(self, exit):
+        if exit in self.room.exits:
+            self.room = self.room.exits[exit_name]
+            print(self.room.description)
+        else:
+            print('That\'s not a valid exit!')
+
 class Room(self): 
    """intended to cover all information about a room""" 
-    def __init__(self, name, description,  exits, items):
-        self.exits = exits #adjacent Rooms
+    def __init__(self, name, description,  items):
+        self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = items #Items in the room, a dictionary with {string:Item}
         self.description = description #what they get from walking in
         self.name = name 
     
+    def add_exit(self, room):
+        '''intended for creation purposes, allows you to name an exit and attach it to another room'''
+        exit_name = input('please enter the direction of the exit, ex. \'North\' or \'Down\'')
+        self.exits[exit_name] = room
+        return 'exit created'
 
+    
 
             
 class Item():
