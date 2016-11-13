@@ -1,7 +1,7 @@
 
 
 class Player():
-"""intended to cover all actions the player may make"""
+    """intended to cover all actions the player may make"""
     def __init__(self, starting_location):
         self.room = starting_location
         self.inventory = {} 
@@ -44,31 +44,31 @@ class Player():
 
     def move_rooms(self, exit):
         if exit in self.room.exits:
-            self.room = self.room.exits[exit_name]
+            self.room = self.room.exits[exit]
             print(self.room.description)
         else:
             print('That\'s not a valid exit!')
 
-class Room(self): 
+class Room(): 
    """intended to cover all information about a room""" 
-    def __init__(self, name, description):
+   def __init__(self, name, description):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
         self.name = name 
     
-    def add_exit(self, exit_name, room):
-        '''intended for creation purposes, allows you to name an exit and attach it to another room'''
-        self.exits[exit_name] = room
-        return 'exit created'
+   def add_exit(self, exit_name, room):
+       '''intended for creation purposes, allows you to name an exit and attach it to another room'''
+       self.exits[exit_name] = room
+       return 'exit created'
 
-    def add_item(self, name, description, use):
-        self.items[name] = Item(name, description, use)
+   def add_item(self, name, description, use):
+       self.items[name] = Item(name, description, use)
     
 
             
 class Item():
-"""intended to cover all information about an item"""
+    """intended to cover all information about an item"""
     def __init__(self, name, description, use):
         self.name = name
         self.desciption = description #seen with view_item()
