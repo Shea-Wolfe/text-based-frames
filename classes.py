@@ -51,18 +51,19 @@ class Player():
 
 class Room(self): 
    """intended to cover all information about a room""" 
-    def __init__(self, name, description,  items):
+    def __init__(self, name, description):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
-        self.items = items #Items in the room, a dictionary with {string:Item}
+        self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
         self.name = name 
     
-    def add_exit(self, room):
+    def add_exit(self, exit_name, room):
         '''intended for creation purposes, allows you to name an exit and attach it to another room'''
-        exit_name = input('please enter the direction of the exit, ex. \'North\' or \'Down\'')
         self.exits[exit_name] = room
         return 'exit created'
 
+    def add_item(self, name, description, use):
+        self.items[name] = Item(name, description, use)
     
 
             
