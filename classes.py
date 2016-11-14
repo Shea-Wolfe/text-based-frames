@@ -67,8 +67,8 @@ class Room():
        self.exits[exit_name] = room
        return 'exit created'
 
-   def add_item(self, name, description, use):
-       self.items[name] = Item(name, description, use)
+   def add_item(self, name, description, view, use, success):
+       self.items[name] = Item(name, description, view,  use, success)
     
    def solved(self):
        for exit in self.solved_exits:
@@ -82,12 +82,13 @@ class Room():
             
 class Item():
     """intended to cover all information about an item"""
-    def __init__(self, name, description, use, success):
+    def __init__(self, name, description, view,  use, success):
         self.name = name
+        self.view = view #what an item looks like in a room.
         self.desciption = description #seen with view_item()
         self.use = use #current setup if for each item to have one and only one use, based on location, thus this is a Room
         self.success_message = success #A text string describing what happens when you use an item.
 
-   def success(self, use):
-       print(self.success)
-       use.solved()
+    def success(self, use):
+        print(self.success)
+        use.solved()
