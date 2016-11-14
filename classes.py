@@ -21,6 +21,7 @@ class Player():
             item = self.inventory[item_name]
             if self.room == item.use:
                 item.success()
+                del self.inventory[item_name]
             else:
                 print("You can't use that here")
         else:
@@ -51,11 +52,15 @@ class Player():
 
 class Room(): 
    """intended to cover all information about a room""" 
-   def __init__(self, name, description):
+   def __init__(self, name, description, solved_exits=None, solved_items=None, solved_description=None, success_message=None):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
-        self.name = name 
+        self.name = name #What the player will see, hopefully, static on screen
+        self.solved_exits = solved_exits #New exits that appear when you solve the room
+        self.solved_items = solved_items #New items that appear when you solve the room
+        self.solved_description = solved_description #A new description that appears after you solve the room
+        self.success_message = success_message #A message that reads after you solve the room
     
    def add_exit(self, exit_name, room):
        '''intended for creation purposes, allows you to name an exit and attach it to another room'''
@@ -65,12 +70,24 @@ class Room():
    def add_item(self, name, description, use):
        self.items[name] = Item(name, description, use)
     
+   def solved(self):
+       for exit in self.solved_exits:
+           self.exits[exit] = self.solved_exits[exit]
+       for item in self.solved_items:
+           self.items[item] = self.solved_items[item]
+       self.description = self.solved_description
+       print(self.success_message)
+       
 
             
 class Item():
     """intended to cover all information about an item"""
-    def __init__(self, name, description, use):
+    def __init__(self, name, description, use, success):
         self.name = name
         self.desciption = description #seen with view_item()
         self.use = use #current setup if for each item to have one and only one use, based on location, thus this is a Room
-        
+        self.success_message = success #A text string describing what happens when you use an item.
+
+   def success(self, use):
+       print(self.success)
+       use.solved()
