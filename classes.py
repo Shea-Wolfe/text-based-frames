@@ -1,3 +1,5 @@
+def value_matcher(dictionary, string):
+    return [value for key, value in dictionary.items() if string in key][0]
 
 
 class Player():
@@ -18,7 +20,7 @@ class Player():
     def use_item(self, item_name):
         '''intended to cover item usage for puzzle solving, basic form'''
         if item_name in self.inventory:
-            item = self.inventory[item_name]
+            item = dict_finder(self.inventory, item_name)
             if self.room == item.use:
                 item.success()
                 del self.inventory[item_name]
@@ -31,13 +33,24 @@ class Player():
         '''intented to cover viewing items in your inventory.
         viewing an item show hint at the puzzle it is intended to solve'''
         if item in self.inventory:
-            print(self.inventory[item].description)
+            print(dict_finder(self.inventory, item).description)
+        else:
+            print('That\'s not in your inventory!')
+
+    def room_item_view(self, item):
+        if item in self.room.items:
+            print(dict_finder(self.room.items, item))
+        else:
+            print('That\'s not in the room!')
 
     def get_item(self, item):
         if item in self.room.items:
-            self.inventory[item] = self.room.items[item]
-            print('You got {}'.format(item))
-            del self.room.items[item]
+            item_name, item = [(key, value) for key, value in self.room.items.items() if item in key][0]
+            self.inventory[item_name] = item
+            print('You got {}'.format(item_name))
+            del self.room.items[item_name]
+        else:
+            print('You can\'t get that!')
 
     def view_room(self):
         '''allows player to get information about a room'''
@@ -85,7 +98,7 @@ class Item():
     def __init__(self, name, description, view,  use, success):
         self.name = name
         self.view = view #what an item looks like in a room.
-        self.desciption = description #seen with view_item()
+        self.description = description #seen with view_item()
         self.use = use #current setup if for each item to have one and only one use, based on location, thus this is a Room
         self.success_message = success #A text string describing what happens when you use an item.
 
