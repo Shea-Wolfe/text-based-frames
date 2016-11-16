@@ -56,10 +56,10 @@ class Player():
         '''allows player to get information about a room'''
         print(self.room.description)
 
-    def move_rooms(self, exit):
-        if exit in self.room.exits:
-            self.room = self.room.exits[exit]
-            print(self.room.description)
+    def move_rooms(self, text):
+        for exit in self.room.exits:
+            if re.search(exit,text):
+                self.room = self.room.exits[exit]
         else:
             print('That\'s not a valid exit!')
 
