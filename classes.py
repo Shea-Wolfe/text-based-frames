@@ -1,6 +1,4 @@
-def value_matcher(dictionary, string):
-    return [value for key, value in dictionary.items() if string in key][0]
-
+from re import search
 
 class Player():
     """intended to cover all actions the player may make"""
@@ -17,38 +15,40 @@ class Player():
             item_list = 'Your inventory contains  \n'
             print(item_list + "\n".join(self.inventory.values()))    
 
-    def use_item(self, item_name):
+    def use_item(self, text):
         '''intended to cover item usage for puzzle solving, basic form'''
-        if item_name in self.inventory:
-            item = dict_finder(self.inventory, item_name)
-            if self.room == item.use:
-                item.success()
-                del self.inventory[item_name]
-            else:
-                print("You can't use that here")
-        else:
-            print('Please enter a valid item')
+        for item in self.inventory:
+            if search(item,text):
+                use_item = self.inventory[item]
+                if use_item.use == self.room:
+                    self.room.solved()
+                    del self.inventory[item]
+                    return
+                else:
+                    print('You can\'t use that here!')
+                    return
+        print('Please enter a valid item')
+        
 
-    def view_item(self, item):
-        '''intented to cover viewing items in your inventory.
-        viewing an item show hint at the puzzle it is intended to solve'''
-        if item in self.inventory:
-            print(dict_finder(self.inventory, item).description)
-        else:
-            print('That\'s not in your inventory!')
+    def view_item(self, text):
+        for item in self.room.items:
+            if search(item,text):
+                return self.room.items[item].far_view()
+        for item in self.inventory:
+            if search(item,text):
+                return self.inventory[item].close_view()
+        if search('inventory',text):
+            return self.view_inventory()
+        print('Please enter a valid item or \"inventory\" to view your entire inventory')
+        
 
-    def room_item_view(self, item):
-        if item in self.room.items:
-            print(dict_finder(self.room.items, item))
-        else:
-            print('That\'s not in the room!')
-
-    def get_item(self, item):
-        if item in self.room.items:
-            item_name, item = [(key, value) for key, value in self.room.items.items() if item in key][0]
-            self.inventory[item_name] = item
-            print('You got {}'.format(item_name))
-            del self.room.items[item_name]
+    def get_item(self, text):
+        for item in self.room.items:
+            if search(item, text):
+                self.inventory[item] = self.room.items[item]
+                del self.room.items[item]
+                print('you got {}'.format(item))
+                break
         else:
             print('You can\'t get that!')
 
@@ -58,8 +58,9 @@ class Player():
 
     def move_rooms(self, text):
         for exit in self.room.exits:
-            if re.search(exit,text):
+            if search(exit,text):
                 self.room = self.room.exits[exit]
+                break
         else:
             print('That\'s not a valid exit!')
 
@@ -101,6 +102,12 @@ class Item():
         self.description = description #seen with view_item()
         self.use = use #current setup if for each item to have one and only one use, based on location, thus this is a Room
         self.success_message = success #A text string describing what happens when you use an item.
+
+    def close_view(self):
+        print(self.description)
+
+    def far_view(self):
+        print(self.view)
 
     def success(self, use):
         print(self.success)
