@@ -13,7 +13,13 @@ class Player():
             print('You do not have anything on you')
         else:
             item_list = 'Your inventory contains  \n'
-            print(item_list + "\n".join(self.inventory.values()))    
+            print(item_list + "\n".join(self.inventory.keys()))    
+
+    def view_exits(self):
+        '''let's the player see potential exits'''
+        exit_list = 'Exits are: '
+        print(exit_list + ', '.join(self.room.exits.keys()))
+
 
     def use_item(self, text):
         '''intended to cover item usage for puzzle solving, basic form'''
@@ -96,7 +102,7 @@ class Room():
             
 class Item():
     """intended to cover all information about an item"""
-    def __init__(self, name, description, view,  use, success):
+    def __init__(self, name, description, view,  use):
         self.name = name
         self.view = view #what an item looks like in a room.
         self.description = description #seen with view_item()
@@ -109,6 +115,3 @@ class Item():
     def far_view(self):
         print(self.view)
 
-    def success(self, use):
-        print(self.success)
-        use.solved()
