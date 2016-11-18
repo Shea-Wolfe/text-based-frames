@@ -13,6 +13,12 @@ def test_inventory():
     player.get_item('a torch')
     assert len(player.inventory) == 1
     assert player.inventory['a torch']
-    
+    assert 'wall' in  player.inventory['a torch'].view 
+    assert 'shining brightly' in player.inventory['a torch'].description
 
-
+def test_move():
+    assert player.room == room1
+    player.move_rooms('north')
+    assert player.room == room2
+    player.move_rooms('south')
+    assert player.room == room1
