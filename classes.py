@@ -102,7 +102,7 @@ class Room():
             
 class Item():
     """intended to cover all information about an item"""
-    def __init__(self, name, description, view,  use):
+    def __init__(self, name, description, view,  use, success):
         self.name = name
         self.view = view #what an item looks like in a room.
         self.description = description #seen with view_item()
