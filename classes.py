@@ -32,25 +32,25 @@ class Player():
                     return
                 else:
                     print('You can\'t use that here!')
-                    return
+
         print('Please enter a valid item')
         
 
     def view_item(self, text):
         for item in self.room.items:
-            if search(item,text):
+            if search(text, item):
                 return self.room.items[item].far_view()
         for item in self.inventory:
-            if search(item,text):
+            if search(text, item):
                 return self.inventory[item].close_view()
-        if search('inventory',text):
+        if search(text, 'inventory'):
             return self.view_inventory()
         print('Please enter a valid item or \"inventory\" to view your entire inventory')
         
 
     def get_item(self, text):
         for item in self.room.items:
-            if search(item, text):
+            if search(text,item):
                 self.inventory[item] = self.room.items[item]
                 del self.room.items[item]
                 print('you got {}'.format(item))
@@ -64,8 +64,9 @@ class Player():
 
     def move_rooms(self, text):
         for exit in self.room.exits:
-            if search(exit,text):
+            if search(text,exit):
                 self.room = self.room.exits[exit]
+                print(self.room.description)
                 break
         else:
             print('That\'s not a valid exit!')
@@ -91,10 +92,12 @@ class Room():
        self.items[name] = Item(name, description, view,  use, success)
     
    def solved(self):
-       for exit in self.solved_exits:
-           self.exits[exit] = self.solved_exits[exit]
-       for item in self.solved_items:
-           self.items[item] = self.solved_items[item]
+       if len(self.solved_exits) > 0:
+           for exit in self.solved_exits:
+               self.exits[exit] = self.solved_exits[exit]
+       if len(self.solved_items) > 0:
+           for item in self.solved_items:
+               self.items[item] = self.solved_items[item]
        self.description = self.solved_description
        print(self.success_message)
        
