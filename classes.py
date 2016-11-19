@@ -18,7 +18,7 @@ class Player():
     def view_exits(self):
         '''let's the player see potential exits'''
         exit_list = 'Exits are: '
-        print(exit_list + ', '.join(self.room.exits.keys()))
+        print(exit_list + ', '.join(self.room.exits.keys())) 
 
 
     def use_item(self, text):
@@ -73,13 +73,13 @@ class Player():
 
 class Room(): 
    """intended to cover all information about a room""" 
-   def __init__(self, name, description, solved_exits=None, solved_items=None, solved_description=None, success_message=None):
+   def __init__(self, name, description, solved_description=None, success_message=None):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
         self.name = name #What the player will see, hopefully, static on screen
-        self.solved_exits = solved_exits #New exits that appear when you solve the room
-        self.solved_items = solved_items #New items that appear when you solve the room
+        self.solved_exits = {} #New exits that appear when you solve the room
+        self.solved_items = {} #New items that appear when you solve the room
         self.solved_description = solved_description #A new description that appears after you solve the room
         self.success_message = success_message #A message that reads after you solve the room
     
@@ -90,14 +90,18 @@ class Room():
 
    def add_item(self, name, description, view, use, success):
        self.items[name] = Item(name, description, view,  use, success)
+   
+   def add_solved_exit(self, exit_name, room):
+       self.solved_exits[exit_name] = room
     
+   def add_solved_item(self, name, description, view, use, success):
+       self.solved_items[name] = Item(name, description, view, use, success)
+
    def solved(self):
-       if self.solved_exits:
-           for exit in self.solved_exits:
-               self.exits[exit] = self.solved_exits[exit]
-       if self.solved_items:
-           for item in self.solved_items:
-               self.items[item] = self.solved_items[item]
+       for exit in self.solved_exits:
+           self.exits[exit] = self.solved_exits[exit]
+       for item in self.solved_items:
+           self.items[item] = self.solved_items[item]
        self.description = self.solved_description
        print(self.success_message)
        
