@@ -24,7 +24,7 @@ class Player():
     def use_item(self, text):
         '''intended to cover item usage for puzzle solving, basic form'''
         for item in self.inventory:
-            if search(item,text):
+            if search(item, text):
                 use_item = self.inventory[item]
                 if use_item.use == self.room:
                     self.room.solved()
@@ -38,10 +38,10 @@ class Player():
 
     def view_item(self, text):
         for item in self.room.items:
-            if search(text, item):
+            if search(item, text):
                 return self.room.items[item].far_view()
         for item in self.inventory:
-            if search(text, item):
+            if search(item, text):
                 return self.inventory[item].close_view()
         if search(text, 'inventory'):
             return self.view_inventory()
@@ -50,7 +50,7 @@ class Player():
 
     def get_item(self, text):
         for item in self.room.items:
-            if search(text,item):
+            if search(item, text):
                 self.inventory[item] = self.room.items[item]
                 del self.room.items[item]
                 print('you got {}'.format(item))
@@ -64,7 +64,7 @@ class Player():
 
     def move_rooms(self, text):
         for exit in self.room.exits:
-            if search(text,exit):
+            if search(exit,text):
                 self.room = self.room.exits[exit]
                 print(self.room.description)
                 break
@@ -92,10 +92,10 @@ class Room():
        self.items[name] = Item(name, description, view,  use, success)
     
    def solved(self):
-       if len(self.solved_exits) > 0:
+       if self.solved_exits:
            for exit in self.solved_exits:
                self.exits[exit] = self.solved_exits[exit]
-       if len(self.solved_items) > 0:
+       if self.solved_items:
            for item in self.solved_items:
                self.items[item] = self.solved_items[item]
        self.description = self.solved_description

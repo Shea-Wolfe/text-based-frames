@@ -14,13 +14,13 @@ def parse_text(player, room):
     elif re.search('look', text) or re.search('view', text):
         if len(text) == 4 or text == 'look room' or text == 'view room':
             player.view_room()
+        elif re.search('inventory',text):
+            player.view_inventory()
+        elif re.search('exits',text):
+            player.view_exits()
         else:
             player.view_item(text)
     #use item
-    elif re.search('inventory', text):
-        player.view_inventory()
-    elif re.search('exits', text):
-        player.view_exits()
     elif re.search('use',text):
         player.use_item(text)
     else:
