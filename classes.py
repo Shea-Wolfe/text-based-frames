@@ -72,8 +72,8 @@ class Player():
             print('That\'s not a valid exit!')
 
 class Room(): 
-   """intended to cover all information about a room""" 
-   def __init__(self, name, description, solved_description=None, success_message=None):
+    """intended to cover all information about a room""" 
+    def __init__(self, name, description, solved_description=None, success_message=None):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
@@ -83,33 +83,36 @@ class Room():
         self.solved_description = solved_description #A new description that appears after you solve the room
         self.success_message = success_message #A message that reads after you solve the room
     
-   def add_exit(self, exit_name, room):
-       '''intended for creation purposes, allows you to name an exit and attach it to another room'''
-       self.exits[exit_name] = room
-       return 'exit created'
+    def add_exit(self, exit_name, room):
+        '''intended for creation purposes, allows you to name an exit and attach it to another room'''
+        self.exits[exit_name] = room
+        return 'exit created'
 
-   def add_item(self, name, description, view, use, success):
-       self.items[name] = Item(name, description, view,  use, success)
+    def add_item(self, name, description, view, use, success):
+        self.items[name] = Item(name, description, view,  use, success)
    
-   def add_solved_exit(self, exit_name, room):
-       self.solved_exits[exit_name] = room
+    def add_solved_exit(self, exit_name, room):
+        self.solved_exits[exit_name] = room
     
-   def add_solved_item(self, name, description, view, use, success):
-       self.solved_items[name] = Item(name, description, view, use, success)
+    def add_solved_item(self, name, description, view, use, success):
+        self.solved_items[name] = Item(name, description, view, use, success)
+  
+    def add_solved_description(self, solved_description):
+        self.solved_description = solved_description
 
-   def solved(self):
-       for exit in self.solved_exits:
-           self.exits[exit] = self.solved_exits[exit]
-       for item in self.solved_items:
-           self.items[item] = self.solved_items[item]
-       self.description = self.solved_description
-       print(self.success_message)
+    def solved(self):
+        for exit in self.solved_exits:
+            self.exits[exit] = self.solved_exits[exit]
+        for item in self.solved_items:
+            self.items[item] = self.solved_items[item]
+        self.description = self.solved_description
+        print(self.success_message)
        
 
             
 class Item():
     """intended to cover all information about an item"""
-    def __init__(self, name, description, view,  use, success):
+    def __init__(self, name, description, view,  use=None, success=None):
         self.name = name
         self.view = view #what an item looks like in a room.
         self.description = description #seen with view_item()
@@ -121,4 +124,9 @@ class Item():
 
     def far_view(self):
         print(self.view)
+
+    def add_use(self, room, success_message):
+        self.use = room
+        self.success_message = success_message
+
 
