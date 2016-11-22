@@ -1,6 +1,6 @@
 from classes import *
 rooms = {}
-items = []
+items = {}
 def generation_loop():
     whlie True:
         text = input('please (C)reate, (E)dit, or  (D)one').lower()
@@ -11,7 +11,8 @@ def generation_loop():
                     room = generate_room()
                     rooms[room.name] = room
                 elif creation_text == 'i' or creation_text == 'item':
-                    items.append(generate_item())
+                    item = generate_item()
+                    items[item.name] = item
                 elif creation_text == 's' or creation_text == 'solution':
                     generate_solution()
                 elif creation_text == 'e' or creation_text == 'exit':
@@ -53,4 +54,18 @@ def generate_item(room=None):
                 break
             else:
                 print('That is not a valid room')
+
+def generate_solutions():
+    while True:
+        item = input('Please enter the item you want to provide a use for').lower()
+        if item in items:
+            item = items[item]
+            while True:
+                room = input('Please enter the room name you want {} to solve'.format(item.name)).lower()
+                if room in rooms:
+                    item.use = rooms[room]
+                    input('The use for {} is now in {}.  Press enter to continue'.format(item.name,room.name))
+                    return
+
+       
 
