@@ -1,6 +1,15 @@
 from classes import *
 rooms = {}
 items = {}
+
+def print_rooms(existing_rooms):
+    for room in existing_rooms:
+        print(room)
+
+def print_items(existing_items):
+    for item in existing_items:
+        print(item)
+
 def generation_loop():
     whlie True:
         text = input('please (C)reate, (E)dit, or  (D)one').lower()
@@ -53,7 +62,8 @@ def generate_item(room=None):
             elif room == 'exit' or room == 'quit'
                 break
             else:
-                print('That is not a valid room')
+                input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
+                print_rooms(rooms)
 
 def generate_solutions():
     while True:
@@ -66,6 +76,11 @@ def generate_solutions():
                     item.use = rooms[room]
                     input('The use for {} is now in {}.  Press enter to continue'.format(item.name,room.name))
                     return
+                else:
+                    input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
+                    print_rooms(rooms)
+        else:
+            input('I\'m sorry, I could not find that item.  Press enter to see existing items')
+            print_items(items)
 
-       
 
