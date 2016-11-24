@@ -11,7 +11,7 @@ def print_items(existing_items):
         print(item)
 
 def generation_loop():
-    whlie True:
+    while True:
         text = input('please (C)reate, (E)dit, or  (D)one').lower()
         if text == 'c' or text == 'create':
             while True:
@@ -35,9 +35,9 @@ def generation_loop():
                 elif creation_text == 'b' or creation_text == 'back':
                     break
         elif text == 'e' or text == 'edit':
-            #edit rooms/items
+            pass#edit rooms/items
         elif text == 'd' or text == 'done':
-            #write the file
+            pass#write the file
 
             
 def generate_room():
@@ -66,7 +66,7 @@ def generate_item(room=None):
             if room in rooms:
                 room = rooms[room]
                 return item
-            elif room == 'exit' or room == 'quit'
+            elif room == 'exit' or room == 'quit':
                 break
             else:
                 input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
