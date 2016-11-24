@@ -2,7 +2,7 @@ from classes import *
 from text_parser import *
 from generation import *
 
-room1 = Room('room 1', 'This is the basic starting room, any bugs?')
+room1 = Room('room 1', 'This is the basic starting room, any bugs?', 'The game is complete.  Good job', 'You find a slot for the coin and insert it.  You have won the game!')
 room2 = Room('room 2', 'It\'s real dark in here, got any light?', 'The room is now well lit, showing an exit to the east', 'The torch illuminates the room, revealing an exit to the east!')
 room3 = Room('room 3', 'This is the bonus room')
 room1.add_exit('north', room2)
@@ -11,7 +11,13 @@ room2.add_solved_exit('east', room3)
 room1.add_item('a torch', 'shining brightly, maybe lights up something?', 'A torch on a wall', room2, 'The torch lights up the whole room, you can see the exit!')
 player = Player(room1)
 rooms = {'room 1':room1, 'room 2':room2, 'room 3':room3}
+room3.add_item('gold', 'shiny, twinkly', 'There is gold on the ground!', success='You find a small slot and put the gold in. You win!')
+items = {'a torch': room1.items['a torch'], 'gold': room3.items['gold']}
 
+def test_room_items():
+    assert 'a torch' in room1.items
+    assert 'gold' in room3.items
+    assert 'gold' in items
 
 def test_inventory():
     player.get_item('a torch')
@@ -45,4 +51,14 @@ def test_add_exit():
     assert player.room == room1
     player.move_rooms('northeast')
     assert player.room == room3
-    
+
+def test_add_solution():
+    generate_solution('gold','room 1', items, rooms)
+    player.get_item('gold')
+    assert player.inventory['gold']
+    player.move_rooms('southwest')
+    assert player.room == room1
+    assert 'starting room' in player.room.description
+    player.use_item('gold')
+    assert 'game' in player.room.description
+    assert 'gold' not in player.inventory

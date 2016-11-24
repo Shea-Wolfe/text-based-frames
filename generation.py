@@ -73,7 +73,7 @@ def generate_item(room=None):
                 print_rooms(rooms)
                 room = None
 
-def generate_solutions(item=None, room=None):
+def generate_solution(item=None, room=None, items=items, rooms=rooms):
     '''given an item and a room, creates a solution for the item in the room.'''
     while True:
         if item == None:

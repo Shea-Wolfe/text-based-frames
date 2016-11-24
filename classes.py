@@ -88,13 +88,13 @@ class Room():
         self.exits[exit_name] = room
         return 'exit created'
 
-    def add_item(self, name, description, view, use, success):
+    def add_item(self, name, description, view, use=None, success=None):
         self.items[name] = Item(name, description, view,  use, success)
    
     def add_solved_exit(self, exit_name, room):
         self.solved_exits[exit_name] = room
     
-    def add_solved_item(self, name, description, view, use, success):
+    def add_solved_item(self, name, description, view, use=None, success=None):
         self.solved_items[name] = Item(name, description, view, use, success)
   
     def add_solved_description(self, solved_description):
