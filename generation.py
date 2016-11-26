@@ -135,7 +135,33 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
     return (room1, room2, exit1, exit2)
 
 def edit_room(room):
-    pass
+    while True:
+        editable = input('Would you like to edit the \n(N)ame of the room \n(D)escription of the room \n(I)tems in the room \n(E)xits in the room \n (P)uzzle parameters of the room \n(S)ave and quit').lower()
+        if editable == 'n':
+            name = input('Please enter the new name for the room').lower()
+            room.name = name
+        elif editable == 'd':
+            description = input('Please enter the new description for the room').lower()
+            room.description = description
+        elif editable == 'i':
+            while True
+                print_items(room.items)
+                item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing').lower()
+                if item == 'a':
+                    add_item(room)
+                elif item in room.items:
+                    item = room.items[item]
+                    edit_item(item)
+                elif item == 'b':
+                    break
+                else:
+                    print('I did not find that item.  Please re-enter.')
+        elif editable == 'p':
+            pass #change the solved paramaters of the room
+        elif editable == 's':
+            break
+        else:
+            input('I did not understand that input.  Press enter to continue')
 
 def edit_item(item):
     pass
