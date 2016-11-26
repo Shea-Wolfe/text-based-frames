@@ -204,7 +204,8 @@ def edit_item(item):
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                     print_rooms(rooms)
         elif editable == 'm':
-            pass
+            success_message = input('Please enter the message for the item to read on successful usage.').lower()
+            item.success_message = success_message
         elif editable == 'q':
             break
 
