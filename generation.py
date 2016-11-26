@@ -147,7 +147,13 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
 
 def edit_room(room):
     while True:
-        editable = input('Would you like to edit the \n(N)ame of the room \n(D)escription of the room \n(I)tems in the room \n(E)xits in the room \n (P)uzzle parameters of the room \n(S)ave and quit').lower()
+        editable = input('Would you like to edit the \n'
+                        '(N)ame of the room \n'
+                        '(D)escription of the room \n'
+                        '(I)tems in the room \n'
+                        '(E)xits in the room \n'
+                        '(P)uzzle parameters of the room \n'
+                        '(S)ave and quit').lower()
         if editable == 'n':
             name = input('Please enter the new name for the room').lower()
             room.name = name
@@ -160,11 +166,10 @@ def edit_room(room):
                 item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing').lower()
                 if item == 'a':
                     add_item(room)
-                elif item in room.items:
-                    item = room.items[item]
-                    edit_item(item)
                 elif item == 'b':
                     break
+                elif test_item(item):
+                    edit_item(item)
                 else:
                     print('I did not find that item.  Please re-enter.')
         elif editable == 'p':
@@ -176,13 +181,13 @@ def edit_room(room):
 
 def edit_item(item):
     while True:
-        editable = input('''Would you like to edit the \n
-                            (N)ame of the item \n
-                            (D)escription of the item in your inventory \n
-                            (V)iew of the item in the room \n
-                            (U)se of the item \n
-                            (M)essage the item gives after use
-                            (Q)uit editing the item''').lower()
+        editable = input('Would you like to edit the \n'
+                         '(N)ame of the item \n'
+                         '(D)escription of the item in your inventory \n'
+                         '(V)iew of the item in the room \n'
+                         '(U)se of the item \n'
+                         '(M)essage the item gives after use \n'
+                         '(Q)uit editing the item').lower()
         if ediable == 'n':
             name = input('Please enter the new name for the item').lower()
             del items[item]
