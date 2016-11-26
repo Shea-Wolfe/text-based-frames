@@ -35,7 +35,19 @@ def generation_loop():
                 elif creation_text == 'b' or creation_text == 'back':
                     break
         elif text == 'e' or text == 'edit':
-            pass#edit rooms/items
+            while True:
+                editable = input('Please enter the room or item you would like to edit. Type back to retern to the previous menu').lower()
+                if editable in rooms:
+                    edit_room(rooms[editable])
+                elif editable in items:
+                    edit_item(items[item])
+                elif editable == 'back':
+                    break
+                else:
+                    input('I did not find that item or room.  Press enter for a list of rooms and items')
+                    print_rooms(rooms)
+                    print_items(items)
+
         elif text == 'd' or text == 'done':
             pass#write the file
 
@@ -121,3 +133,9 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
     room1.exits[exit1] = room2
     room2.exits[exit2] = room1 
     return (room1, room2, exit1, exit2)
+
+def edit_room(room):
+    pass
+
+def edit_item(item):
+    pass
