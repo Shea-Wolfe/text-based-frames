@@ -10,6 +10,18 @@ def print_items(existing_items):
     for item in existing_items:
         print(item)
 
+def test_room(room):
+    if room in rooms:
+        return rooms[room]
+    else:
+        return None
+
+def test_item(item):
+    if item in items:
+        return items[item]
+    else:
+        return None
+
 def generation_loop():
     while True:
         text = input('please (C)reate, (E)dit, or  (D)one').lower()
@@ -90,18 +102,17 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
     while True:
         if item == None:
             item = input('Please enter the item you want to provide a use for').lower()
-        if item in items:
-            item = items[item]
+        item = test_item(item)
+        if item:
             while True:
                 if room == None:
                     room = input('Please enter the room name you want {} to solve'.format(item.name)).lower()
-                if room in rooms:
-                    item.use = rooms[room]
+                room = test_room(room)
+                if room:
                     return (item,room) 
                 else:
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                     print_rooms(rooms)
-                    room = None
         else:
             input('I\'m sorry, I could not find that item.  Press enter to see existing items')
             print_items(items)
@@ -111,8 +122,8 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
     if room1 == None:
         while True:
             room1 = input('Please enter the first room you want an exit in.').lower()
-            if room1 in rooms:
-                room1 = rooms[room1]
+            room1 = test_room(room1)
+            if room1:
                 break
             else:
                 input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
@@ -120,8 +131,8 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
     if room2 == None:
         while True:
             room2 = input('Please enter the second room you want an exit in.').lower()
-            if room2 in rooms:
-                room2 = rooms[room2]
+            room2 = test_room(room2)
+            if room2:
                 break
             else:
                 input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
@@ -144,7 +155,7 @@ def edit_room(room):
             description = input('Please enter the new description for the room').lower()
             room.description = description
         elif editable == 'i':
-            while True
+            while True:
                 print_items(room.items)
                 item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing').lower()
                 if item == 'a':
@@ -164,4 +175,37 @@ def edit_room(room):
             input('I did not understand that input.  Press enter to continue')
 
 def edit_item(item):
-    pass
+    while True:
+        editable = input('''Would you like to edit the \n
+                            (N)ame of the item \n
+                            (D)escription of the item in your inventory \n
+                            (V)iew of the item in the room \n
+                            (U)se of the item \n
+                            (M)essage the item gives after use
+                            (Q)uit editing the item''').lower()
+        if ediable == 'n':
+            name = input('Please enter the new name for the item').lower()
+            del items[item]
+            item.name = name
+            items(name) = item
+        elif ediable == 'd':
+            description = input('Please enter the new description for the item while in your inventory').lower()
+            item.description = description
+        elif editable == 'v':
+            view = input('Please enter the new view for the item while still in the room').lower()
+            item.view = view
+        elif editable == 'u':
+            while True:
+                room = room_test(input('Please enter the first room you want an exit in.').lower())
+                if room: 
+                    item.use = room
+                    break
+                else:
+                    input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
+                    print_rooms(rooms)
+        elif editable == 'm':
+            pass
+        elif editable == 'q':
+            break
+
+
