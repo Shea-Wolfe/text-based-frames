@@ -10,13 +10,13 @@ def print_items(existing_items):
     for item in existing_items:
         print(item)
 
-def test_room(room):
+def test_room(room, rooms=rooms):
     if room in rooms:
         return rooms[room]
     else:
         return None
 
-def test_item(item):
+def test_item(item, items=items):
     if item in items:
         return items[item]
     else:
@@ -111,13 +111,14 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
     while True:
         if item == None:
             item = input('Please enter the item you want to provide a use for').lower()
-        item = test_item(item)
+        item = test_item(item, items)
         if item:
             while True:
                 if room == None:
                     room = input('Please enter the room name you want {} to solve'.format(item.name)).lower()
-                room = test_room(room)
+                room = test_room(room, rooms)
                 if room:
+                    item.use = room
                     return (item,room) 
                 else:
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
@@ -220,7 +221,7 @@ def edit_item(item):
             name = input('Please enter the new name for the item').lower()
             del items[item]
             item.name = name
-            items(name) = item
+            items[name] = item
         elif ediable == 'd':
             description = input('Please enter the new description for the item while in your inventory').lower()
             item.description = description
