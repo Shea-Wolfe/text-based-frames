@@ -28,6 +28,7 @@ class Player():
                 use_item = self.inventory[item]
                 if use_item.use == self.room:
                     self.room.solved()
+                    print(use_item.success_message)
                     del self.inventory[item]
                     return
                 else:
@@ -106,7 +107,6 @@ class Room():
         for item in self.solved_items:
             self.items[item] = self.solved_items[item]
         self.description = self.solved_description
-        print(self.success_message)
        
 
             

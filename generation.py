@@ -77,19 +77,28 @@ def generate_room():
             break
     return room 
 
-def generate_item(room=None):
+def generate_item(room=None, solved=False):
     name = input('Please enter the name of the item').lower()
     view = input('Please enter what the item looks like in the room').lower()
     description = input('Please enter what the item looks like in the player inventory').lower()
-    if room:
+    if bonus and room:
+        room.add_solved_item(name, description, view)
+        return room.solved_items[name]
+    elif room:
         room.add_item(name, description, view)
+        return room.items[name]
     else:
         while True:
             if room == None:
                 room = input('Please enter the name of the room this item is in').lower()
             if room in rooms:
                 room = rooms[room]
-                return item
+                if solved:
+                    room.add_solved_item(name, description, view)
+                    return room.solved_items[name]
+                else:
+                    room.add_item(name, description, view)
+                    return room.items[name]
             elif room == 'exit' or room == 'quit':
                 break
             else:
@@ -118,7 +127,7 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
             print_items(items)
             item = None
 
-def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
+def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     if room1 == None:
         while True:
             room1 = input('Please enter the first room you want an exit in.').lower()
@@ -141,7 +150,10 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None):
         exit1 = input('Please enter the name of the exit from {} to {}.  Ex. North.'.format(room1.name, room2.name)).lower()
     if exit2 == None:
         exit2 = input('Please enter the name of the exit from {} to {}. Ex. South'.format(room2.name, room1.name)).lower()
-    room1.exits[exit1] = room2
+    if solved:
+        room1.solved_exits[exit1] = room2
+    else:
+        room1.exits[exit1] = room2
     room2.exits[exit2] = room1 
     return (room1, room2, exit1, exit2)
 
@@ -173,7 +185,23 @@ def edit_room(room):
                 else:
                     print('I did not find that item.  Please re-enter.')
         elif editable == 'p':
-            pass #change the solved paramaters of the room
+            while True:
+                editable = input('Would you like to edit the \n'
+                                '(D)escription of the room after solution \n'
+                                '(I)tems in the room after solving \n'
+                                '(E)xits in the room after solving \n'
+                                '(B)ack to previous menu').lower()
+                if editable == 'd':
+                    description = input('Please enter the new description').lower()
+                    room.solved_description = description
+                elif editable == 'i':
+                    generate_item(room, solved=True)
+                elif editable == 'e':
+                    generate_exit(room, solved=True)
+                elif editable == 'b':
+                    break
+                else:
+                    input('I did not understand that input.  Press enter to continue')
         elif editable == 's':
             break
         else:
