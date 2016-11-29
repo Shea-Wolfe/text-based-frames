@@ -3,26 +3,31 @@ rooms = {}
 items = {}
 
 def print_rooms(existing_rooms):
+    '''A helper function to print all rooms in a group of rooms'''
     for room in existing_rooms:
         print(room)
 
 def print_items(existing_items):
+    '''A helper function to print all items in a group of items'''
     for item in existing_items:
         print(item)
 
 def test_room(room, rooms=rooms):
+    '''Checks to see if a room is in your rooms dictionary, if so returns the room, else returns None'''
     if room in rooms:
         return rooms[room]
     else:
         return None
 
 def test_item(item, items=items):
+    '''Checks to see if an item is in your items dictionary, if so returns the item, else returns None'''
     if item in items:
         return items[item]
     else:
         return None
 
 def generation_loop():
+    '''The loop that contains all the game creation functions.  ends by writing a game file.'''
     while True:
         text = input('please (C)reate, (E)dit, or  (D)one').lower()
         if text == 'c' or text == 'create':
@@ -65,6 +70,7 @@ def generation_loop():
 
             
 def generate_room():
+    '''A function to create a room.  Relies on human input'''
     name = input('Please enter the name of the room').lower()
     description = input('Please enter what the player sees when they enter or view the room').lower()
     room = Room(name, description)
@@ -78,6 +84,7 @@ def generate_room():
     return room 
 
 def generate_item(room=None, solved=False):
+    '''A function to create an item, requires a room. Relies on human input'''
     name = input('Please enter the name of the item').lower()
     view = input('Please enter what the item looks like in the room').lower()
     description = input('Please enter what the item looks like in the player inventory').lower()
@@ -129,6 +136,7 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
             item = None
 
 def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
+    '''Creates exits between 2 rooms, can be automated by feeding both rooms and both exit names'''
     if room1 == None:
         while True:
             room1 = input('Please enter the first room you want an exit in.').lower()
@@ -159,6 +167,7 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     return (room1, room2, exit1, exit2)
 
 def edit_room(room):
+    '''Allows for editing of existing room parameters'''
     while True:
         editable = input('Would you like to edit the \n'
                         '(N)ame of the room \n'
@@ -209,6 +218,7 @@ def edit_room(room):
             input('I did not understand that input.  Press enter to continue')
 
 def edit_item(item):
+    '''Allows for editing of existing item parameters'''
     while True:
         editable = input('Would you like to edit the \n'
                          '(N)ame of the item \n'
