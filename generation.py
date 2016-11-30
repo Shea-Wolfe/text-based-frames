@@ -29,10 +29,10 @@ def test_item(item, items=items):
 def generation_loop():
     '''The loop that contains all the game creation functions.  ends by writing a game file.'''
     while True:
-        text = input('please (C)reate, (E)dit, or  (D)one').lower()
+        text = input('please (C)reate, (E)dit, or  (D)one \n> ').lower()
         if text == 'c' or text == 'create':
             while True:
-                creation_text = input('Would you like to make\nA (R)oom\nAdd an (I)tem to an existing room\nAdd a (S)olution to a room/item combo\nAn (E)xit between two rooms\nGo (B)ack to the previous menu').lower()
+                creation_text = input('Would you like to make\nA (R)oom\nAdd an (I)tem to an existing room\nAdd a (S)olution to a room/item combo\nAn (E)xit between two rooms\nGo (B)ack to the previous menu \n> ').lower()
                 if creation_text == 'r' or creation_text == 'room':
                     room = generate_room()
                     rooms[room.name] = room
@@ -53,7 +53,7 @@ def generation_loop():
                     break
         elif text == 'e' or text == 'edit':
             while True:
-                editable = input('Please enter the room or item you would like to edit. Type back to retern to the previous menu').lower()
+                editable = input('Please enter the room or item you would like to edit. Type back to retern to the previous menu \n> ').lower()
                 if editable in rooms:
                     edit_room(rooms[editable])
                 elif editable in items:
@@ -71,11 +71,11 @@ def generation_loop():
             
 def generate_room():
     '''A function to create a room.  Relies on human input'''
-    name = input('Please enter the name of the room').lower()
-    description = input('Please enter what the player sees when they enter or view the room').lower()
+    name = input('Please enter the name of the room \n> ').lower()
+    description = input('Please enter what the player sees when they enter or view the room \n> ').lower()
     room = Room(name, description)
     while True:
-        items = input('Would you like to add an item to the room? Y/N').lower()
+        items = input('Would you like to add an item to the room? Y/N \n> ').lower()
         if items == 'y' or items == 'yes':
             item = generate_item(room)
             room.items[item.name] = item
@@ -85,10 +85,10 @@ def generate_room():
 
 def generate_item(room=None, solved=False):
     '''A function to create an item, requires a room. Relies on human input'''
-    name = input('Please enter the name of the item').lower()
-    view = input('Please enter what the item looks like in the room').lower()
-    description = input('Please enter what the item looks like in the player inventory').lower()
-    if bonus and room:
+    name = input('Please enter the name of the item \n> ').lower()
+    view = input('Please enter what the item looks like in the room\n >').lower()
+    description = input('Please enter what the item looks like in the player inventory\n >').lower()
+    if solved and room:
         room.add_solved_item(name, description, view)
         return room.solved_items[name]
     elif room:
@@ -97,7 +97,7 @@ def generate_item(room=None, solved=False):
     else:
         while True:
             if room == None:
-                room = input('Please enter the name of the room this item is in').lower()
+                room = input('Please enter the name of the room this item is in \n> ').lower()
             if room in rooms:
                 room = rooms[room]
                 if solved:
@@ -117,12 +117,12 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
     '''given an item and a room, creates a solution for the item in the room.'''
     while True:
         if item == None:
-            item = input('Please enter the item you want to provide a use for').lower()
+            item = input('Please enter the item you want to provide a use for \n> ').lower()
         item = test_item(item, items)
         if item:
             while True:
                 if room == None:
-                    room = input('Please enter the room name you want {} to solve'.format(item.name)).lower()
+                    room = input('Please enter the room name you want {} to solve \n> '.format(item.name)).lower()
                 room = test_room(room, rooms)
                 if room:
                     item.use = room
@@ -139,7 +139,7 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     '''Creates exits between 2 rooms, can be automated by feeding both rooms and both exit names'''
     if room1 == None:
         while True:
-            room1 = input('Please enter the first room you want an exit in.').lower()
+            room1 = input('Please enter the first room you want an exit in. \n> ').lower()
             room1 = test_room(room1)
             if room1:
                 break
@@ -148,7 +148,7 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
                 print_rooms(rooms)
     if room2 == None:
         while True:
-            room2 = input('Please enter the second room you want an exit in.').lower()
+            room2 = input('Please enter the second room you want an exit in. \n> ').lower()
             room2 = test_room(room2)
             if room2:
                 break
@@ -156,9 +156,9 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
                 input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                 print_rooms(rooms)
     if exit1 == None:
-        exit1 = input('Please enter the name of the exit from {} to {}.  Ex. North.'.format(room1.name, room2.name)).lower()
+        exit1 = input('Please enter the name of the exit from {} to {}.  Ex. North. \n> '.format(room1.name, room2.name)).lower()
     if exit2 == None:
-        exit2 = input('Please enter the name of the exit from {} to {}. Ex. South'.format(room2.name, room1.name)).lower()
+        exit2 = input('Please enter the name of the exit from {} to {}. Ex. South \n> '.format(room2.name, room1.name)).lower()
     if solved:
         room1.solved_exits[exit1] = room2
     else:
@@ -175,17 +175,17 @@ def edit_room(room):
                         '(I)tems in the room \n'
                         '(E)xits in the room \n'
                         '(P)uzzle parameters of the room \n'
-                        '(S)ave and quit').lower()
+                        '(S)ave and quit \n> ').lower()
         if editable == 'n':
-            name = input('Please enter the new name for the room').lower()
+            name = input('Please enter the new name for the room \n> ').lower()
             room.name = name
         elif editable == 'd':
-            description = input('Please enter the new description for the room').lower()
+            description = input('Please enter the new description for the room \n> ').lower()
             room.description = description
         elif editable == 'i':
             while True:
                 print_items(room.items)
-                item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing').lower()
+                item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing \n> ').lower()
                 if item == 'a':
                     add_item(room)
                 elif item == 'b':
@@ -200,9 +200,9 @@ def edit_room(room):
                                 '(D)escription of the room after solution \n'
                                 '(I)tems in the room after solving \n'
                                 '(E)xits in the room after solving \n'
-                                '(B)ack to previous menu').lower()
+                                '(B)ack to previous menu \n> ').lower()
                 if editable == 'd':
-                    description = input('Please enter the new description').lower()
+                    description = input('Please enter the new description \n> ').lower()
                     room.solved_description = description
                 elif editable == 'i':
                     generate_item(room, solved=True)
@@ -226,21 +226,21 @@ def edit_item(item):
                          '(V)iew of the item in the room \n'
                          '(U)se of the item \n'
                          '(M)essage the item gives after use \n'
-                         '(Q)uit editing the item').lower()
+                         '(Q)uit editing the item \n> ').lower()
         if ediable == 'n':
-            name = input('Please enter the new name for the item').lower()
+            name = input('Please enter the new name for the item \n> ').lower()
             del items[item]
             item.name = name
             items[name] = item
         elif ediable == 'd':
-            description = input('Please enter the new description for the item while in your inventory').lower()
+            description = input('Please enter the new description for the item while in your inventory \n> ').lower()
             item.description = description
         elif editable == 'v':
-            view = input('Please enter the new view for the item while still in the room').lower()
+            view = input('Please enter the new view for the item while still in the room \n> ').lower()
             item.view = view
         elif editable == 'u':
             while True:
-                room = room_test(input('Please enter the first room you want an exit in.').lower())
+                room = room_test(input('Please enter the first room you want an exit in. \n> ').lower())
                 if room: 
                     item.use = room
                     break
@@ -248,9 +248,10 @@ def edit_item(item):
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                     print_rooms(rooms)
         elif editable == 'm':
-            success_message = input('Please enter the message for the item to read on successful usage.').lower()
+            success_message = input('Please enter the message for the item to read on successful usage. \n> ').lower()
             item.success_message = success_message
         elif editable == 'q':
             break
 
-
+if __name__ == '__main__':
+    generation_loop()
