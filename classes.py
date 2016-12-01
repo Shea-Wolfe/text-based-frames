@@ -83,6 +83,7 @@ class Room():
         self.solved_items = {} #New items that appear when you solve the room
         self.solved_description = solved_description #A new description that appears after you solve the room
         self.success_message = success_message #A message that reads after you solve the room
+        self.starting_room = False
     
     def add_exit(self, exit_name, room):
         '''intended for creation purposes, allows you to name an exit and attach it to another room'''

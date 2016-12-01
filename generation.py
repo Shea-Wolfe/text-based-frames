@@ -68,9 +68,18 @@ def generation_loop():
                     print_items(items)
 
         elif text == 'd' or text == 'done':
+            while True:
+                starting_room = input('Please enter the name of the starting room \n> ').lower()
+                if test_room(starting_room):
+                    rooms[starting_room].starting_room = True
+                    break
+                else:
+                    input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
+                    print_rooms(rooms)
             filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower()
             with open(filename, 'wb') as f:
                 pickle.dump([room for room in rooms.values()], f)
+            break
 
 
             
@@ -80,10 +89,10 @@ def generate_room():
     description = input('Please enter what the player sees when they enter or view the room \n> ').lower()
     room = Room(name, description)
     while True:
-        items = input('Would you like to add an item to the room? Y/N \n> ').lower()
-        if items == 'y' or items == 'yes':
+        new_items = input('Would you like to add an item to the room? Y/N \n> ').lower()
+        if new_items == 'y' or new_items == 'yes':
             item = generate_item(room)
-            room.items[item.name] = item
+            items[item.name] = item
         else:
             break
     return room 
@@ -91,14 +100,14 @@ def generate_room():
 def generate_item(room=None, solved=False):
     '''A function to create an item, requires a room. Relies on human input'''
     name = input('Please enter the name of the item \n> ').lower()
-    view = input('Please enter what the item looks like in the room\n >').lower()
-    description = input('Please enter what the item looks like in the player inventory\n >').lower()
+    view = input('Please enter what the item looks like in the room\n > ').lower()
+    description = input('Please enter what the item looks like in the player inventory\n > ').lower()
     if solved and room:
         room.add_solved_item(name, description, view)
         return room.solved_items[name]
     elif room:
         room.add_item(name, description, view)
-        return room.items[name]
+        return  room.items[name]
     else:
         while True:
             if room == None:
@@ -131,6 +140,7 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
                 room = test_room(room, rooms)
                 if room:
                     item.use = room
+                    item.success_message = input('Please enter the message that will be read when you use the item \n> ').lower()
                     return (item,room) 
                 else:
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
@@ -210,7 +220,8 @@ def edit_room(room):
                     description = input('Please enter the new description \n> ').lower()
                     room.solved_description = description
                 elif editable == 'i':
-                    generate_item(room, solved=True)
+                    item = generate_item(room, solved=True)
+                    items[item.name] = item
                 elif editable == 'e':
                     generate_exit(room, solved=True)
                 elif editable == 'b':
