@@ -91,7 +91,7 @@ class Room():
 
     def add_item(self, name, description, view, use=None, success=None):
         self.items[name] = Item(name, description, view,  use, success)
-   
+        
     def add_solved_exit(self, exit_name, room):
         self.solved_exits[exit_name] = room
     

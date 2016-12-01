@@ -1,4 +1,6 @@
+import pickle
 from classes import *
+
 rooms = {}
 items = {}
 
@@ -66,7 +68,10 @@ def generation_loop():
                     print_items(items)
 
         elif text == 'd' or text == 'done':
-            pass#write the file
+            filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower()
+            with open(filename, 'wb') as f:
+                pickle.dump([room for room in rooms.values()], f)
+
 
             
 def generate_room():
