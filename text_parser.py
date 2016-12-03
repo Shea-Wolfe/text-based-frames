@@ -1,5 +1,6 @@
 from classes import Player, Room
 import re
+import sys
 
 def parse_text(player, room):
     text = input('> ')
@@ -23,5 +24,9 @@ def parse_text(player, room):
     #use item
     elif re.search('use',text):
         player.use_item(text)
+    elif re.search('help',text):
+        print('commands are \"move\", \"take\", \"look\", \"use\", or \"quit\"')
+    elif re.search('quit',text):
+        sys.exit()
     else:
         print('I didn\'t understand that.  Please start your statement with move, get, look, or use')
