@@ -50,15 +50,4 @@ def test_add_exit():
     player.move_rooms('southwest')
     assert player.room == room1
     player.move_rooms('northeast')
-    assert player.room == room3
 
-def test_add_solution():
-    generate_solution('gold','room 1', items, rooms)
-    player.get_item('gold')
-    assert player.inventory['gold']
-    player.move_rooms('southwest')
-    assert player.room == room1
-    assert 'starting room' in player.room.description
-    player.use_item('gold')
-    assert 'game' in player.room.description
-    assert 'gold' not in player.inventory

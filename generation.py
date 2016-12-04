@@ -14,14 +14,14 @@ def print_items(existing_items):
     for item in existing_items:
         print(item)
 
-def test_room(room, rooms=rooms):
+def room_check(room, rooms=rooms):
     '''Checks to see if a room is in your rooms dictionary, if so returns the room, else returns None'''
     if room in rooms:
         return rooms[room]
     else:
         return None
 
-def test_item(item, items=items):
+def item_check(item, items=items):
     '''Checks to see if an item is in your items dictionary, if so returns the item, else returns None'''
     if item in items:
         return items[item]
@@ -70,7 +70,7 @@ def generation_loop():
         elif text == 'd' or text == 'done':
             while True:
                 starting_room = input('Please enter the name of the starting room \n> ').lower()
-                if test_room(starting_room):
+                if room_check(starting_room):
                     rooms[starting_room].starting_room = True
                     break
                 else:
@@ -132,12 +132,12 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
     while True:
         if item == None:
             item = input('Please enter the item you want to provide a use for \n> ').lower()
-        item = test_item(item, items)
+        item = item_check(item, items)
         if item:
             while True:
                 if room == None:
                     room = input('Please enter the room name you want {} to solve \n> '.format(item.name)).lower()
-                room = test_room(room, rooms)
+                room = room_check(room, rooms)
                 if room:
                     item.use = room
                     item.success_message = input('Please enter the message that will be read when you use the item \n> ').lower()
@@ -155,7 +155,7 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     if room1 == None:
         while True:
             room1 = input('Please enter the first room you want an exit in. \n> ').lower()
-            room1 = test_room(room1)
+            room1 = room_check(room1)
             if room1:
                 break
             else:
@@ -164,7 +164,7 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     if room2 == None:
         while True:
             room2 = input('Please enter the second room you want an exit in. \n> ').lower()
-            room2 = test_room(room2)
+            room2 = room_check(room2)
             if room2:
                 break
             else:
@@ -205,7 +205,7 @@ def edit_room(room):
                     add_item(room)
                 elif item == 'b':
                     break
-                elif test_item(item):
+                elif item_check(item):
                     edit_item(item)
                 else:
                     print('I did not find that item.  Please re-enter.')
@@ -256,7 +256,7 @@ def edit_item(item):
             item.view = view
         elif editable == 'u':
             while True:
-                room = room_test(input('Please enter the first room you want an exit in. \n> ').lower())
+                room = room_check(input('Please enter the first room you want an exit in. \n> ').lower())
                 if room: 
                     item.use = room
                     break
