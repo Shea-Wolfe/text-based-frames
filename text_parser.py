@@ -2,8 +2,9 @@ from classes import Player, Room
 import re
 import sys
 import pickle
-def parse_text(player, room, rooms):
-    text = input('> ')
+def parse_text(player, room, rooms, text=None):
+    if not text:
+        text = input('> ')
     text = text.lower()
     #move rooms
     if re.search('move',text) or re.search('go',text):
