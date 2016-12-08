@@ -11,13 +11,13 @@ room2.add_solved_exit('east', room3)
 room1.add_item('a torch', 'shining brightly, maybe lights up something?', 'A torch on a wall', room2, 'The torch lights up the whole room, you can see the exit!')
 player = Player(room1)
 rooms = {'room 1':room1, 'room 2':room2, 'room 3':room3}
-room3.add_item('gold', 'shiny, twinkly', 'There is gold on the ground!', success='You find a small slot and put the gold in. You win!')
-items = {'a torch': room1.items['a torch'], 'gold': room3.items['gold']}
+room3.add_item('gems', 'shiny, twinkly', 'There is gold on the ground!', success='You find a small slot and put the gems in. You win!')
+items = {'a torch': room1.items['a torch'], 'gems': room3.items['gems']}
 
 def test_room_items():
     assert 'a torch' in room1.items
-    assert 'gold' in room3.items
-    assert 'gold' in items
+    assert 'gems' in room3.items
+    assert 'gems' in items
 
 def test_inventory():
     player.get_item('a torch')
@@ -49,5 +49,12 @@ def test_add_exit():
     generate_exit(room1, exit1, room3, exit3)
     player.move_rooms('southwest')
     assert player.room == room1
-    player.move_rooms('northeast')
 
+def test_text_parser():
+    parse_text(player, player.room, rooms, 'go north')
+    assert player.room == room2
+    parse_text(player, player.room, rooms, 'go east')
+    assert player.room == room3
+    parse_text(player, player.room, rooms, 'get gems')
+    assert 'gems' in player.inventory
+    
