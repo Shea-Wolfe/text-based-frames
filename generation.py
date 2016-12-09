@@ -127,7 +127,7 @@ def generate_item(room=None, solved=False):
                 print_rooms(rooms)
                 room = None
 
-def generate_solution(item=None, room=None, items=items, rooms=rooms):
+def generate_solution(item=None, room=None, items=items, rooms=rooms, success_message=None):
     '''given an item and a room, creates a solution for the item in the room.'''
     while True:
         if item == None:
@@ -140,7 +140,10 @@ def generate_solution(item=None, room=None, items=items, rooms=rooms):
                 room = room_check(room, rooms)
                 if room:
                     item.use = room
-                    item.success_message = input('Please enter the message that will be read when you use the item \n> ').lower()
+                    if success_message:
+                        item.success_message = success_message
+                    else:
+                        item.success_message = input('Please enter the message that will be read when you use the item \n> ').lower()
                     return (item,room) 
                 else:
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
