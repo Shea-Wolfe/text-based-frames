@@ -74,7 +74,7 @@ class Player():
 
 class Room(): 
     """intended to cover all information about a room""" 
-    def __init__(self, name, description, solved_description=None, success_message=None):
+    def __init__(self, name, description, solved_description=None):
         self.exits = {} #due to exits requiring other rooms they have to be added post init. format is {exit_name:Room}
         self.items = {} #Items in the room, a dictionary with {string:Item}, same issues as above.
         self.description = description #what they get from walking in
@@ -82,7 +82,6 @@ class Room():
         self.solved_exits = {} #New exits that appear when you solve the room
         self.solved_items = {} #New items that appear when you solve the room
         self.solved_description = solved_description #A new description that appears after you solve the room
-        self.success_message = success_message #A message that reads after you solve the room
         self.starting_room = False
     
     def add_exit(self, exit_name, room):
