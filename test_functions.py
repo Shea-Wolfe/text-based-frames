@@ -58,6 +58,12 @@ def test_text_parser():
     parse_text(player, player.room, rooms, 'get gems')
     assert 'gems' in player.inventory
 
+def test_checks():
+    assert room_check('room5',rooms) == None
+    assert item_check('a thingy', items) == None
+    assert room_check('room 1', rooms) == room1
+    assert item_check('gems', items) == player.inventory['gems']
+
 def test_generate_solution():
     generate_solution('gems', 'room 1',items,rooms, 'it slices, it dices!')
     parse_text(player, player.room, rooms, 'go southwest')
