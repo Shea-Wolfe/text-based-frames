@@ -69,3 +69,12 @@ def test_generate_solution():
     parse_text(player, player.room, rooms, 'go southwest')
     parse_text(player, player.room, rooms, 'use gems')
     assert 'gems' not in player.inventory
+
+def test_class_creation():
+    room4 = Room('room 4', 'this is the test room 4')
+    item1 = Item('test item', 'This is used to test item creation', 'Wow it is a thing!')
+    assert 'test' in room4.description
+    assert room4.name == 'room 4'
+    assert item1.name == 'test item'
+    assert 'test' in item1.description
+    assert 'thing' in item1.view
