@@ -31,7 +31,7 @@ def item_check(item, items=items):
 def generation_loop():
     '''The loop that contains all the game creation functions.  ends by writing a game file.'''
     while True:
-        text = input('please (C)reate, (E)dit, or  (D)one \n> ').lower()
+        text = input('please (C)reate, (E)dit, (V)iew, or  (D)one \n> ').lower()
         if text == 'c' or text == 'create':
             while True:
                 creation_text = input('Would you like to make\nA (R)oom\nAdd an (I)tem to an existing room\nAdd a (S)olution to a room/item combo\nAn (E)xit between two rooms\nGo (B)ack to the previous menu \n> ').lower()
@@ -66,7 +66,11 @@ def generation_loop():
                     input('I did not find that item or room.  Press enter for a list of rooms and items')
                     print_rooms(rooms)
                     print_items(items)
-
+        elif text == 'v' or text == 'view':
+            for room in rooms.values():
+                print(room.name + ' contains the following:')
+                for item in room.items.values():
+                    print('\t' + item.name)
         elif text == 'd' or text == 'done':
             while True:
                 starting_room = input('Please enter the name of the starting room \n> ').lower()
@@ -77,8 +81,9 @@ def generation_loop():
                     input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
                     print_rooms(rooms)
             filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower()
-            with open(filename, 'wb') as f:
-                pickle.dump([room for room in rooms.values()], f)
+            if filename:
+                with open(filename, 'wb') as f:
+                    pickle.dump([room for room in rooms.values()], f)
             break
 
 
