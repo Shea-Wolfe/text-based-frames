@@ -68,9 +68,15 @@ def generation_loop():
                     print_items(items)
         elif text == 'v' or text == 'view':
             for room in rooms.values():
-                print(room.name + ' contains the following:')
+                print(room.name +' has the description: \n{}\nand contains the following items and exits:'.format(room.description))
+                print('Items:')
                 for item in room.items.values():
-                    print('\t' + item.name)
+                    print('\tname: ' + item.name)
+                    print('\tdescription: ' + item.description)
+                    print('\tview: ' + item.view)
+                print('Exits:')
+                for exit in room.exits:
+                    print('\t' + exit)
         elif text == 'd' or text == 'done':
             while True:
                 starting_room = input('Please enter the name of the starting room \n> ').lower()
