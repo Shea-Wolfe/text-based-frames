@@ -18,5 +18,6 @@ with open(filename, 'rb') as f:
                 pass
 print(player.room.description)
 while True:
-    parse_text(player, player.room, rooms)
-
+    ret = parse_text(player, player.room, rooms)
+    if ret == False:
+        break

@@ -1,6 +1,7 @@
 from classes import *
 from text_parser import *
 from generation import *
+import os
 
 room1 = Room('room 1', 'This is the basic starting room, any bugs?', 'The game is complete.  Good job')
 room2 = Room('room 2', 'It\'s real dark in here, got any light?', 'The room is now well lit, showing an exit to the east')
@@ -78,3 +79,12 @@ def test_class_creation():
     assert item1.name == 'test item'
     assert 'test' in item1.description
     assert 'thing' in item1.view
+
+def test_save():
+    parse_text(player, player.room, rooms, 'quit', 'test_save')
+    assert os.path.exists('test_save')
+    try:
+        os.remove('test_save')
+        assert os.path.exists('test_save') == False
+    except:
+        pass

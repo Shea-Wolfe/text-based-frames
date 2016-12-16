@@ -2,7 +2,7 @@ from classes import Player, Room
 import re
 import sys
 import pickle
-def parse_text(player, room, rooms, text=None):
+def parse_text(player, room, rooms, text=None, game_save=None):
     if not text:
         text = input('> ')
     text = text.lower()
@@ -28,11 +28,12 @@ def parse_text(player, room, rooms, text=None):
     elif re.search('help',text):
         print('commands are \"move\", \"take\", \"look\", \"use\", or \"quit\"')
     elif re.search('quit',text):
-        game_save = input('Please enter a name for your save game.')
+        if not game_save:
+            game_save = input('Please enter a name for your save game.')
         if game_save:
             with open(game_save, 'wb') as f:
                 pickle.dump(room,f)
                 pickle.dump(player,f)
-        sys.exit()
+        return False 
     else:
         print('I didn\'t understand that.  Please start your statement with move, get, look, or use')
