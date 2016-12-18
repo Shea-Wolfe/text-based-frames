@@ -36,4 +36,4 @@ def parse_text(player, room, rooms, text=None, game_save=None):
                 pickle.dump(player,f)
         return False 
     else:
-        print('I didn\'t understand that.  Please start your statement with move, get, look, or use')
+        print('I didn\'t understand that.  Please try entering move, take, look, use, quit, or help') 
