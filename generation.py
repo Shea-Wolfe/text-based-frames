@@ -60,7 +60,7 @@ def generation_loop():
                     edit_room(rooms[editable])
                 elif editable in items:
                     edit_item(items[item])
-                elif editable == 'back':
+                elif editable == 'b' or editable == 'back':
                     break
                 else:
                     input('I did not find that item or room.  Press enter for a list of rooms and items')
@@ -205,44 +205,44 @@ def edit_room(room):
                         '(E)xits in the room \n'
                         '(P)uzzle parameters of the room \n'
                         '(S)ave and quit \n> ').lower()
-        if editable == 'n':
+        if editable == 'n' or editable == 'name':
             name = input('Please enter the new name for the room \n> ').lower()
             room.name = name
-        elif editable == 'd':
+        elif editable == 'd' or editable == 'description':
             description = input('Please enter the new description for the room \n> ').lower()
             room.description = description
-        elif editable == 'i':
+        elif editable == 'i' or editable == 'items':
             while True:
                 print_items(room.items)
                 item = input('Please enter one of the above items to edit \n(A)dd a new item \n(B)ack to room editing \n> ').lower()
-                if item == 'a':
+                if item == 'a' or item == 'add':
                     add_item(room)
-                elif item == 'b':
+                elif item == 'b' or item == 'back':
                     break
                 elif item_check(item):
                     edit_item(item)
                 else:
                     print('I did not find that item.  Please re-enter.')
-        elif editable == 'p':
+        elif editable == 'p' or editable == 'puzzle':
             while True:
                 editable = input('Would you like to edit the \n'
                                 '(D)escription of the room after solution \n'
                                 '(I)tems in the room after solving \n'
                                 '(E)xits in the room after solving \n'
                                 '(B)ack to previous menu \n> ').lower()
-                if editable == 'd':
+                if editable == 'd' or editable == 'description':
                     description = input('Please enter the new description \n> ').lower()
                     room.solved_description = description
-                elif editable == 'i':
+                elif editable == 'i' or editable == 'items':
                     item = generate_item(room, solved=True)
                     items[item.name] = item
-                elif editable == 'e':
+                elif editable == 'e' or editable == 'exits':
                     generate_exit(room, solved=True)
-                elif editable == 'b':
+                elif editable == 'b' or editable == 'back':
                     break
                 else:
                     input('I did not understand that input.  Press enter to continue')
-        elif editable == 's':
+        elif editable == 's' or editable == 'save' or editable == 'quit':
             break
         else:
             input('I did not understand that input.  Press enter to continue')
@@ -257,18 +257,18 @@ def edit_item(item):
                          '(U)se of the item \n'
                          '(M)essage the item gives after use \n'
                          '(Q)uit editing the item \n> ').lower()
-        if ediable == 'n':
+        if ediable == 'n' or editable == 'name':
             name = input('Please enter the new name for the item \n> ').lower()
             del items[item]
             item.name = name
             items[name] = item
-        elif ediable == 'd':
+        elif ediable == 'd' or editable == 'description':
             description = input('Please enter the new description for the item while in your inventory \n> ').lower()
             item.description = description
-        elif editable == 'v':
+        elif editable == 'v' or editable == 'view':
             view = input('Please enter the new view for the item while still in the room \n> ').lower()
             item.view = view
-        elif editable == 'u':
+        elif editable == 'u' or editable == 'use':
             while True:
                 room = room_check(input('Please enter the first room you want an exit in. \n> ').lower())
                 if room: 
@@ -277,10 +277,10 @@ def edit_item(item):
                 else:
                     input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                     print_rooms(rooms)
-        elif editable == 'm':
+        elif editable == 'm' or editable == 'message':
             success_message = input('Please enter the message for the item to read on successful usage. \n> ').lower()
             item.success_message = success_message
-        elif editable == 'q':
+        elif editable == 'q' or editable == 'quit' or editable == 'back':
             break
 
 if __name__ == '__main__':

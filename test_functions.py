@@ -38,9 +38,11 @@ def test_use():
     player.move_rooms('north')
     player.move_rooms('east')
     assert player.room == room2
+    assert 'east' not in player.room.exits
     player.use_item('a torch')
     assert 'well lit' in player.room.description
     assert 'a torch' not in player.inventory
+    assert 'east' in player.room.exits
     player.move_rooms('east')
     assert player.room == room3
     
