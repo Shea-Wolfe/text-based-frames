@@ -6,10 +6,12 @@ from text_parser import *
 
 filename = argv[1]
 with open(filename, 'rb') as f:
-    rooms = pickle.load(f)
     try:
-        player = pickle.load(f)
+        game = pickle.load(f)
+        player = game.player
+        rooms = game.rooms
     except:
+        rooms = game
         for room in rooms:
             if room.starting_room:
                 player = Player(room)

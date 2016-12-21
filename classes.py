@@ -129,4 +129,9 @@ class Item():
         self.use = room
         self.success_message = success_message
 
+class Game():
+    '''Intended to hold a single game session, used for saving/loading'''
+    def __init__(self, player, rooms):
+        self.player = player
+        self.rooms = rooms
 

@@ -89,10 +89,9 @@ def test_save():
 
 def test_load():
     with open('test_save', 'rb') as f:
-        rooms = pickle.load(f)
-        player = pickle.load(f)
-    assert player.room.name == room1.name 
-    assert 'room 3' in rooms
+        game = pickle.load(f)
+    assert game.player.room.name == room1.name 
+    assert 'room 3' in game.rooms
     try:
         os.remove('test_save')
         assert os.path.exists('test_save') == False
