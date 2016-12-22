@@ -77,11 +77,14 @@ def test_generate_solution():
 def test_class_creation():
     room4 = Room('room 4', 'this is the test room 4')
     item1 = Item('test item', 'This is used to test item creation', 'Wow it is a thing!')
+    game = Game(player, rooms)
     assert 'test' in room4.description
     assert room4.name == 'room 4'
     assert item1.name == 'test item'
     assert 'test' in item1.description
     assert 'thing' in item1.view
+    assert game.player == player
+    assert game.rooms == rooms
 
 def test_save():
     parse_text(player, player.room, rooms, 'quit', 'test_save')
