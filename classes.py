@@ -2,9 +2,10 @@ from re import search
 
 class Player():
     """intended to cover all actions the player may make"""
-    def __init__(self, starting_location):
+    def __init__(self, starting_location, name):
         self.room = starting_location
         self.inventory = {} 
+        self.name = name
     
 
     def view_inventory(self):
@@ -44,8 +45,6 @@ class Player():
         for item in self.inventory:
             if search(item, text):
                 return self.inventory[item].close_view()
-        if search(text, 'inventory'):
-            return self.view_inventory()
         print('Please enter a valid item or \"inventory\" to view your entire inventory')
         
 

@@ -10,11 +10,13 @@ with open(filename, 'rb') as f:
         game = pickle.load(f)
         player = game.player
         rooms = game.rooms
+        print('{} welcome back!'.format(player.name))
     except:
         rooms = game
         for room in rooms:
             if room.starting_room:
-                player = Player(room)
+                name = input('Please enter your name')
+                player = Player(room, name)
                 break
             else:
                 pass

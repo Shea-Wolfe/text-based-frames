@@ -10,7 +10,7 @@ room1.add_exit('north', room2)
 room2.add_exit('south', room1)
 room2.add_solved_exit('east', room3)
 room1.add_item('a torch', 'shining brightly, maybe lights up something?', 'A torch on a wall', room2, 'The torch lights up the whole room, you can see the exit!')
-player = Player(room1)
+player = Player(room1, 'test_dummy')
 rooms = {'room 1':room1, 'room 2':room2, 'room 3':room3}
 room3.add_item('gems', 'shiny, twinkly', 'There are gems on the ground!')
 items = {'a torch': room1.items['a torch'], 'gems': room3.items['gems']}
@@ -85,6 +85,7 @@ def test_class_creation():
     assert 'thing' in item1.view
     assert game.player == player
     assert game.rooms == rooms
+    assert player.name == 'test_dummy'
 
 def test_save():
     parse_text(player, player.room, rooms, 'quit', 'test_save')
@@ -95,6 +96,7 @@ def test_load():
         game = pickle.load(f)
     assert game.player.room.name == room1.name 
     assert 'room 3' in game.rooms
+    assert game.player.name == 'test_dummy'
     try:
         os.remove('test_save')
         assert os.path.exists('test_save') == False
