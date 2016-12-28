@@ -10,6 +10,10 @@
 * To run the tests simply enter `nosetests` after you have installed nose using pip.
 * Please note that creating a game, saving a game, or running the test suite all write files to the current directory, so be sure that writing is enabled.
 
+## WIP areas
+* While the current release of the terminal version of the game is stable, the attempt to port it to Django is currently unstable
+* Due to game files and save files being pickled files there is a risk of malicious code.  Please do not open any games from unknown sources.
+
 ## Description
 
 * This repo is dedicated to creating simple text based games using python. 
