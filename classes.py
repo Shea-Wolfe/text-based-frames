@@ -130,7 +130,7 @@ class Item():
 
 class Game():
     '''Intended to hold a single game session, used for saving/loading'''
-    def __init__(self, player, rooms):
+    def __init__(self, rooms, player=None):
         self.player = player
         self.rooms = rooms
 

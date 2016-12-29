@@ -88,8 +88,9 @@ def generation_loop():
                     print_rooms(rooms)
             filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower()
             if filename:
+                game = Game([room for room in rooms.values()])
                 with open(filename, 'wb') as f:
-                    pickle.dump([room for room in rooms.values()], f)
+                    pickle.dump(game, f)
             break
 
 

@@ -8,11 +8,11 @@ filename = argv[1]
 with open(filename, 'rb') as f:
     try:
         game = pickle.load(f)
-        player = game.player
         rooms = game.rooms
+        player = game.player
         print('{} welcome back!'.format(player.name))
     except:
-        rooms = game
+        rooms = game.rooms
         for room in rooms:
             if room.starting_room:
                 name = input('Please enter your name')

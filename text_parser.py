@@ -32,7 +32,7 @@ def parse_text(player, room, rooms, text=None, game_save=None):
             game_save = input('Please enter a name for your save game.')
         if game_save:
             with open(game_save, 'wb') as f:
-                pickle.dump(Game(player, rooms),f)
+                pickle.dump(Game(rooms, player),f)
         return False 
     else:
         print('I didn\'t understand that.  Please try entering move, take, look, use, quit, or help') 
