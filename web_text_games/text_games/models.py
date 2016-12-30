@@ -1,5 +1,9 @@
 from django.db import models
 
+class Game(models.Model):
+    save_name = models.CharField(max_length=140)
+    unique_id = models.IntegerField(null=True)
+    player_name = models.CharField()
 
 class Room(models.Model):
     name = models.CharField(max_length=140)
