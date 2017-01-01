@@ -1,0 +1,8 @@
+__pycashe__
+.env
+.direnv
+.envrc
+__init__.py
+dev_notes.md
+test_game
+
