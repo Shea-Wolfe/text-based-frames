@@ -15,7 +15,7 @@ with open(filename, 'rb') as f:
         rooms = game.rooms
         for room in rooms:
             if room.starting_room:
-                name = input('Please enter your name')
+                name = input('Please enter your name\n> ')
                 player = Player(room, name)
                 break
             else:
