@@ -3,12 +3,12 @@ from re import search
 class Player():
     """intended to cover all actions the player may make"""
     def __init__(self, starting_location, name):
-        self.room = starting_location
-        self.inventory = {} 
-        self.name = name
+        self.room = starting_location #We need to know where to start, so we use this rather than forcing a starting room name
+        self.inventory = {} #Where items the player pick up go, we check this to confirm a player can use something
+        self.name = name #Only used for greetings currently, but a nice thing to have
     
 
-    def view_inventory(self):
+    def view_inventory(self): #When a player 'look inventory' they get to see this list
         '''intended to allow for review of picked up items'''
         if len(self.inventory) == 0:
             print('You do not have anything on you')
@@ -16,13 +16,13 @@ class Player():
             item_list = 'Your inventory contains  \n'
             print(item_list + "\n".join(self.inventory.keys()))    
 
-    def view_exits(self):
+    def view_exits(self): #When a player 'look exits' they get to see this list
         '''let's the player see potential exits'''
         exit_list = 'Exits are: '
         print(exit_list + ', '.join(self.room.exits.keys())) 
 
 
-    def use_item(self, text):
+    def use_item(self, text): 
         '''intended to cover item usage for puzzle solving, basic form'''
         for item in self.inventory:
             if search(item, text):
