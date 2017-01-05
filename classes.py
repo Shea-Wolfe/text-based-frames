@@ -1,6 +1,6 @@
-from re import search
+from re import search 
 
-class Player():
+class Player(): #Used to track player location and items
     """intended to cover all actions the player may make"""
     def __init__(self, starting_location, name):
         self.room = starting_location #We need to know where to start, so we use this rather than forcing a starting room name
@@ -22,54 +22,54 @@ class Player():
         print(exit_list + ', '.join(self.room.exits.keys())) 
 
 
-    def use_item(self, text): 
+    def use_item(self, text): #Called with use 'item_name'
         '''intended to cover item usage for puzzle solving, basic form'''
         for item in self.inventory:
-            if search(item, text):
-                use_item = self.inventory[item]
-                if use_item.use == self.room:
-                    self.room.solved()
-                    print(use_item.success_message)
-                    del self.inventory[item]
+            if search(item, text): #Looks for the item name in the entered text.
+                use_item = self.inventory[item] #Gets the Item object out of the inventory
+                if use_item.use == self.room: #Check to see if the current room is where the item is used
+                    self.room.solved() #Modifies the room with add'l exits and/or items
+                    print(use_item.success_message) #Used to alert the player to success/give feedback
+                    del self.inventory[item] #Removes the item from the game, no multi-use items
                     return
                 else:
-                    print('You can\'t use that here!')
+                    print('You can\'t use that here!') #If the player uses a real item in the wrong room we let them know
 
-        print('Please enter a valid item')
+        print('Please enter a valid item') #If we can't find the entered item we let the player know
         
 
-    def view_item(self, text):
-        for item in self.room.items:
+    def view_item(self, text): #Called with 'look item' or 'view item'
+        for item in self.room.items: #First we see if the item is in the room
             if search(item, text):
-                return self.room.items[item].far_view()
-        for item in self.inventory:
+                return self.room.items[item].far_view() # If so we give the player info they would see from a distance
+        for item in self.inventory: #Then we check if it is in the inventory.
             if search(item, text):
-                return self.inventory[item].close_view()
-        print('Please enter a valid item or \"inventory\" to view your entire inventory')
+                return self.inventory[item].close_view() #If so we give the players a more detailed description
+        print('Please enter a valid item or \"inventory\" to view your entire inventory') #Let the player know if there isn't an item found
         
 
-    def get_item(self, text):
-        for item in self.room.items:
+    def get_item(self, text): #Called with 'get item' or 'take item'
+        for item in self.room.items: 
             if search(item, text):
-                self.inventory[item] = self.room.items[item]
-                del self.room.items[item]
-                print('you got {}'.format(item))
+                self.inventory[item] = self.room.items[item] #If one of the items in the room are being taken, we add it to inventory
+                del self.room.items[item] #Then we delete the item from the room, each item will hopefully only ever exist in one place.
+                print('you got {}'.format(item)) #Let the player know it worked
                 break
         else:
-            print('You can\'t get that!')
+            print('You can\'t get that!') #Perhaps needs refinement, lets the player know they failed
 
-    def view_room(self):
+    def view_room(self): #Called with 'look room'
         '''allows player to get information about a room'''
-        print(self.room.description)
+        print(self.room.description) # Simply repeats the info you get for entering a room
 
-    def move_rooms(self, text):
-        for exit in self.room.exits:
-            if search(exit,text):
-                self.room = self.room.exits[exit]
-                print(self.room.description)
+    def move_rooms(self, text): #Called with 'move exit' or 'go exit'
+        for exit in self.room.exits: #We scan through the exits that exist in the room we are in
+            if search(exit,text): 
+                self.room = self.room.exits[exit] #If we find one we change the players room to the one indicated by the exit (remember exits are a dictionary of {name:Room}
+                print(self.room.description) #Give the player feedback to the new room they have entered
                 break
         else:
-            print('That\'s not a valid exit!')
+            print('That\'s not a valid exit!') #Let the player know if the action fails
 
 class Room(): 
     """intended to cover all information about a room""" 
