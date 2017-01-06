@@ -83,54 +83,54 @@ class Room():
         self.solved_description = solved_description #A new description that appears after you solve the room
         self.starting_room = False
     
-    def add_exit(self, exit_name, room):
+    def add_exit(self, exit_name, room): #Used to create an exit in the rooms exits
         '''intended for creation purposes, allows you to name an exit and attach it to another room'''
         self.exits[exit_name] = room
         return 'exit created'
 
-    def add_item(self, name, description, view, use=None, success=None):
+    def add_item(self, name, description, view, use=None, success=None):# Used to add an item to the rooms items, note the item shouldn't
         self.items[name] = Item(name, description, view,  use, success)
         
-    def add_solved_exit(self, exit_name, room):
+    def add_solved_exit(self, exit_name, room): #Used to create exits that appear when the room is solved
         self.solved_exits[exit_name] = room
     
-    def add_solved_item(self, name, description, view, use=None, success=None):
+    def add_solved_item(self, name, description, view, use=None, success=None): #Used to create items that appear when the room is solved.
         self.solved_items[name] = Item(name, description, view, use, success)
   
-    def add_solved_description(self, solved_description):
+    def add_solved_description(self, solved_description): # This allows you to set a solved description after initial class creation.
         self.solved_description = solved_description
 
-    def solved(self):
+    def solved(self): #The method that runs upon a successful item use to solve a room
         for exit in self.solved_exits:
-            self.exits[exit] = self.solved_exits[exit]
+            self.exits[exit] = self.solved_exits[exit] #Add all solved exits to the rooms exits
         for item in self.solved_items:
-            self.items[item] = self.solved_items[item]
-        self.description = self.solved_description
-       
+            self.items[item] = self.solved_items[item] #Add all solved items to the rooms items
+        self.description = self.solved_description #Change the description to the solved description
+       #Note, the success message is handled in the item, not here in the room!
 
             
 class Item():
     """intended to cover all information about an item"""
     def __init__(self, name, description, view,  use=None, success=None):
-        self.name = name
-        self.view = view #what an item looks like in a room.
-        self.description = description #seen with view_item()
+        self.name = name #Used to find and fetch the item, must be unique
+        self.view = view #what an item looks like in a room. Should be more vague than description
+        self.description = description #seen with view_item(), what a player can learn about an item in their inventory
         self.use = use #current setup if for each item to have one and only one use, based on location, thus this is a Room
         self.success_message = success #A text string describing what happens when you use an item.
 
-    def close_view(self):
-        print(self.description)
+    def close_view(self): #Looking at an item in your possession
+        print(self.description) 
 
-    def far_view(self):
+    def far_view(self): #Looking at an item you haven't gotten yet
         print(self.view)
 
-    def add_use(self, room, success_message):
-        self.use = room
-        self.success_message = success_message
+    def add_use(self, room, success_message): #Helper method to give an item a use.  
+        self.use = room #Note this doesn't create the solved portions of a room, so make sure the room has solved attributes. 
+        self.success_message = success_message #The message the player gets when they use an item successfully
 
 class Game():
     '''Intended to hold a single game session, used for saving/loading'''
     def __init__(self, rooms, player=None):
-        self.player = player
-        self.rooms = rooms
+        self.player = player #The players info and game state
+        self.rooms = rooms #Holds the rooms of the game, which contain everything else.
 
