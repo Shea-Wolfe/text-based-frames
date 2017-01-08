@@ -30,28 +30,32 @@ def item_check(item, items=items):
 
 def generation_loop():
     '''The loop that contains all the game creation functions.  ends by writing a game file.'''
-    while True:
-        text = input('please (C)reate, (E)dit, (V)iew, or  (D)one \n> ').lower()
+    while True: 
+        text = input('please (C)reate, (E)dit, (V)iew, or  (D)one \n> ').lower() #We imply that they should use the single letters, but take the full word as well
         if text == 'c' or text == 'create':
             while True:
                 creation_text = input('Would you like to make\nA (R)oom\nAdd an (I)tem to an existing room\nAdd a (S)olution to a room/item combo\nAn (E)xit between two rooms\nGo (B)ack to the previous menu \n> ').lower()
                 if creation_text == 'r' or creation_text == 'room':
-                    room = generate_room()
-                    rooms[room.name] = room
+                    room = generate_room() #Create the room with the function below
+                    rooms[room.name] = room #Add the room to the rooms dict. 
                 elif creation_text == 'i' or creation_text == 'item':
-                    if len(rooms) > 0:
-                        item = generate_item()
-                        items[item.name] = item
+                    if len(rooms) > 0: #Since items only live inside rooms we check for rooms
+                        item = generate_item() #Make an item with the function below
+                        items[item.name] = item #Add the item to the items dict.  Used for listing all existing items
                     else:
                         input('You need a room to put an item in before you can make an item.  Press enter to continue')
                 elif creation_text == 's' or creation_text == 'solution':
-                    item, room = generate_solution()
-                    input('The use for {} is now in {}.'.format(item.name,room.name))
-                elif creation_text == 'e' or creation_text == 'exit':
-                    room1, room2, exit1, exit2 = generate_exit()
-                    input('{} has an exit {} to {}'.format(room1.name, exit1, room2.name))
-                    input('{} has an exit {} to {}'.format(room2.name, exit2, room1.name))
-                elif creation_text == 'b' or creation_text == 'back':
+                    item, room = generate_solution() #Create a solution for a room with an item
+                    input('The use for {} is now in {}.'.format(item.name,room.name)) 
+                elif creation_text == 'e' or creation_text == 'exit': #Create an exit from one room to another (and vice versa)
+                    if len(rooms) > 1: #Make sure there are two rooms to connect
+                        try: #In case the user changes their mind try here
+                            room1, room2, exit1, exit2 = generate_exit()
+                            input('{} has an exit {} to {}'.format(room1.name, exit1, room2.name))
+                            input('{} has an exit {} to {}'.format(room2.name, exit2, room1.name))
+                        except: #If they change their mind the try will fail and we just go back into the loop
+                            continue
+                elif creation_text == 'b' or creation_text == 'back': #Used to get back to the top level of the loop
                     break
         elif text == 'e' or text == 'edit':
             while True:
@@ -173,6 +177,8 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
             room1 = room_check(room1)
             if room1:
                 break
+            elif room1 == 'back' or room1 == 'quit':
+                return None
             else:
                 input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                 print_rooms(rooms)
@@ -182,6 +188,8 @@ def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
             room2 = room_check(room2)
             if room2:
                 break
+            elif room2 == 'back' or room2 == 'quit':
+                return None
             else:
                 input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
                 print_rooms(rooms)
