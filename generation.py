@@ -57,19 +57,21 @@ def generation_loop():
                             continue
                 elif creation_text == 'b' or creation_text == 'back': #Used to get back to the top level of the loop
                     break
-        elif text == 'e' or text == 'edit':
+        elif text == 'e' or text == 'edit': #Used to change existing objects
             while True:
-                editable = input('Please enter the room or item you would like to edit. Type back to retern to the previous menu \n> ').lower()
+                editable = input('Please enter the room or item you would like to edit. Type back to retern to the previous menu \n> ').lower() #Rather then add a menu we just check for both
                 if editable in rooms:
-                    edit_room(rooms[editable])
+                    edit_room(rooms[editable]) #All the updating takes place in edit_room()
                 elif editable in items:
-                    edit_item(items[item])
-                elif editable == 'b' or editable == 'back':
+                    edit_item(items[item]) #All the updating takes place in edit_item()
+                elif editable == 'b' or editable == 'back': #A way to get out of the loop
                     break
                 else:
                     input('I did not find that item or room.  Press enter for a list of rooms and items')
-                    print_rooms(rooms)
-                    print_items(items)
+                    print('Rooms are: ')
+                    print_rooms(rooms) #Using helper function found up top
+                    print('Items are: '
+                    print_items(items) #Using helper function found up top
         elif text == 'v' or text == 'view':
             for room in rooms.values():
                 print(room.name +' has the description: \n{}\nand contains the following items and exits:'.format(room.description))
