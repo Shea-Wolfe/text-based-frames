@@ -70,35 +70,43 @@ def generation_loop():
                     input('I did not find that item or room.  Press enter for a list of rooms and items')
                     print('Rooms are: ')
                     print_rooms(rooms) #Using helper function found up top
-                    print('Items are: '
+                    print('Items are: ')
                     print_items(items) #Using helper function found up top
         elif text == 'v' or text == 'view':
-            for room in rooms.values():
-                print(room.name +' has the description: \n{}\nand contains the following items and exits:'.format(room.description))
+            for room in rooms.values(): #Iterate through our rooms classes in the dict. 
+                print(room.name +' has the description: \n{}\nand contains the following items and exits:'.format(room.description)) #Start with the room description
                 print('Items:')
-                for item in room.items.values():
-                    print('\tname: ' + item.name)
+                for item in room.items.values(): #Iterate through Items in the room
+                    print('\tname: ' + item.name) #Tab indent for clarity and then display the item attributes
                     print('\tdescription: ' + item.description)
                     print('\tview: ' + item.view)
-                print('Exits:')
-                for exit in room.exits:
-                    print('\t' + exit)
-        elif text == 'd' or text == 'done':
+                print('Exits:') 
+                for exit in room.exits: #Iterate through exit names 
+                    print(exit) #Print what the exit appears as
+                    print('\t' + room.exits[exit].name) #Print the name of the room the exit leads to
+        elif text == 'd' or text == 'done': #Done, Save, and Quit are all handed in Done.
             while True:
-                starting_room = input('Please enter the name of the starting room \n> ').lower()
-                if room_check(starting_room):
-                    rooms[starting_room].starting_room = True
+                starting_room = input('Please enter the name of the starting room \n> ').lower() #We need a starting room to place the player in
+                if room_check(starting_room): #Make sure they enter a valid room
+                    rooms[starting_room].starting_room = True #Set the starting room parameter on that room to true
+                    break #Exit the while lopo. go to the if starting_room below
+                elif len(rooms) == 0: #If nothing has created we just quit out immediately
+                    print('No rooms found.  Nothing will be saved') #But not before letting the player know
+                    starting_room = None #Set starting_room to none to bypass filename input
                     break
                 else:
-                    input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
-                    print_rooms(rooms)
-            filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower()
-            if filename:
-                game = Game([room for room in rooms.values()])
-                with open(filename, 'wb') as f:
-                    pickle.dump(game, f)
-            break
-
+                    input('I\'m sorry, I could not find that room.  Press enter to see existing rooms') #If the room doesn't match we provide a list of rooms they've created
+                    print_rooms(rooms) #A helper function from up top
+            if starting_room: #We use an if statment to skip this when no rooms were created.
+                filename = input('Please enter the name of the file. letters and numbers only please. \n> ').lower() #Save file will be the filename
+            try:
+                if filename: #If the player doens't enter a save file we don't want to write anything, so we skip it.
+                    game = Game([room for room in rooms.values()]) #We store everything in a game object
+                    with open(filename, 'wb') as f: #open up the file (pickling needs binary write)
+                        pickle.dump(game, f) #And pickle the game class
+                break #Exits the loop completely, ending the program.
+            except:
+                break
 
             
 def generate_room():
