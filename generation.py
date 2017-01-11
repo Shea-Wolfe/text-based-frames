@@ -113,15 +113,16 @@ def generate_room():
     '''A function to create a room.  Relies on human input'''
     name = input('Please enter the name of the room \n> ').lower()
     description = input('Please enter what the player sees when they enter or view the room \n> ').lower()
-    room = Room(name, description)
+    room = Room(name, description) #After taking all input we create the room
+    print('Room created with name {} and description: {}'.format(room.name, room.description)) #We let the user know what they made.
     while True:
-        new_items = input('Would you like to add an item to the room? Y/N \n> ').lower()
-        if new_items == 'y' or new_items == 'yes':
-            item = generate_item(room)
-            items[item.name] = item
-        else:
-            break
-    return room 
+        new_items = input('Would you like to add an item to the room? Y/N \n> ').lower()#Since Items need a room we let the user add them directly
+        if new_items == 'y' or new_items == 'yes': #Accept either yes input
+            item = generate_item(room) #We feed the room here to bypass the room input
+            items[item.name] = item #We add the new item to our items dict
+        else: #Rather than look for N we just assume not Yes is No.
+            break 
+    return room #We return the room here so all the items are in the room when it is added to our rooms dict (in the loop)
 
 def generate_item(room=None, solved=False):
     '''A function to create an item, requires a room. Relies on human input'''
