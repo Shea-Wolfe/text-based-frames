@@ -129,30 +129,34 @@ def generate_item(room=None, solved=False):
     name = input('Please enter the name of the item \n> ').lower()
     view = input('Please enter what the item looks like in the room\n > ').lower()
     description = input('Please enter what the item looks like in the player inventory\n > ').lower()
-    if solved and room:
-        room.add_solved_item(name, description, view)
-        return room.solved_items[name]
-    elif room:
+    if solved and room: #Solved implies that the item is a bonus item, the room must be solved to find it.
+        room.add_solved_item(name, description, view) #We create the item with the room method
+        return room.solved_items[name] #We have to pull the item object out of the room items dict
+    elif room: #In this case we feed the room in but it is not a bonus item
         room.add_item(name, description, view)
         return  room.items[name]
-    else:
+    else: #When we don't provide a room we need to get input
         while True:
-            if room == None:
+            if room == None: #Since we're in a loop we don't want to make the player re-enter the room
                 room = input('Please enter the name of the room this item is in \n> ').lower()
-            if room in rooms:
-                room = rooms[room]
-                if solved:
-                    room.add_solved_item(name, description, view)
+            if room in rooms: #We look for the room in our existing rooms
+                room = rooms[room] #We pull out the room object.
+                if solved: #We check to see if the item is a bonus item
+                    room.add_solved_item(name, description, view) 
+                    new_item = room.solved_items[name]
+                    print('You added Item: {}\n As a bonus item to Room: {}\n That appears in the room like {}\n And appears in the inventory like {}.'.format(new_item.name, room.name, new_item.view, new_item.description)) 
                     return room.solved_items[name]
-                else:
+                else: #If not we assume it's a normal item
                     room.add_item(name, description, view)
-                    return room.items[name]
-            elif room == 'exit' or room == 'quit':
+                    new_item = room.items[name]
+                    print('You added Item: {}\n to Room: {}\n That appears in the room like {}\n And appears in the inventory like {}.'.format(new_item.name, room.name, new_item.view, new_item.description)) 
+                    return new_item
+            elif room == 'exit' or room == 'quit': #We leave in an exit case
                 break
-            else:
+            else: #If we don't find the room we let the player know, list rooms and restart the loop
                 input('I\'m sorry, I could not find that room.  Press enter to see existing rooms')
                 print_rooms(rooms)
-                room = None
+                room = None #We set the room to none to force re-entry.
 
 def generate_solution(item=None, room=None, items=items, rooms=rooms, success_message=None):
     '''given an item and a room, creates a solution for the item in the room.'''
