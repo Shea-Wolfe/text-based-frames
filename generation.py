@@ -43,15 +43,15 @@ def generation_loop():
                         item = generate_item() #Make an item with the function below
                         items[item.name] = item #Add the item to the items dict.  Used for listing all existing items
                     else:
-                        input('You need a room to put an item in before you can make an item.  Press enter to continue')
+                        input('You need a room to put an item in before you can make an item.  Press enter to continue') #We use input instead of print to force action from the user
                 elif creation_text == 's' or creation_text == 'solution':
                     item, room = generate_solution() #Create a solution for a room with an item
-                    input('The use for {} is now in {}.'.format(item.name,room.name)) 
+                    input('The use for {} is now in {}.'.format(item.name,room.name)) #We use input here to make sure the user has a chance to see the text
                 elif creation_text == 'e' or creation_text == 'exit': #Create an exit from one room to another (and vice versa)
                     if len(rooms) > 1: #Make sure there are two rooms to connect
                         try: #In case the user changes their mind try here
                             room1, room2, exit1, exit2 = generate_exit()
-                            input('{} has an exit {} to {}'.format(room1.name, exit1, room2.name))
+                            input('{} has an exit {} to {}'.format(room1.name, exit1, room2.name)) #Input used instead of print to slow the pace of display
                             input('{} has an exit {} to {}'.format(room2.name, exit2, room1.name))
                         except: #If they change their mind the try will fail and we just go back into the loop
                             continue
@@ -161,28 +161,27 @@ def generate_item(room=None, solved=False):
 def generate_solution(item=None, room=None, items=items, rooms=rooms, success_message=None):
     '''given an item and a room, creates a solution for the item in the room.'''
     while True:
-        if item == None:
+        if item == None: #We allow an item to be fed in, but if not have input for it
             item = input('Please enter the item you want to provide a use for \n> ').lower()
-        item = item_check(item, items)
-        if item:
-            while True:
-                if room == None:
+        item = item_check(item, items) #Item check is a helper function found up top, it checks items for item and returns the Item object if it matches
+        if item: #If item_check returns None we skip to the bottom
+            while True: #We drop another loop layer here since we may have to re-enter rooms
+                if room == None: #We allow rooms to be fed in, if not we take an input
                     room = input('Please enter the room name you want {} to solve \n> '.format(item.name)).lower()
-                room = room_check(room, rooms)
-                if room:
-                    item.use = room
-                    if success_message:
+                room = room_check(room, rooms) # room_check is a helper function from up top.  It checks for room in rooms and if so returns the Room object associated
+                if room: #If room_check returns none we restart the inner loop
+                    item.use = room #We set the room as the location the item can be used
+                    if success_message: #We allow the success message to be fed to the function
                         item.success_message = success_message
-                    else:
+                    else: # If the success message isn't fed directly we have manual entry.
                         item.success_message = input('Please enter the message that will be read when you use the item \n> ').lower()
-                    return (item,room) 
+                    return (item,room) #We return the item and the room to provide feedback to the creation in the main loop 
                 else:
-                    input('I\'m sorry, I could not find that room. Press enter to see all existing rooms')
+                    input('I\'m sorry, I could not find that room. Press enter to see all existing rooms') #We use an input to force user interaction then show them options
                     print_rooms(rooms)
         else:
-            input('I\'m sorry, I could not find that item.  Press enter to see existing items')
+            input('I\'m sorry, I could not find that item.  Press enter to see existing items') # We use input to force user interaction again
             print_items(items)
-            item = None
 
 def generate_exit(room1=None, exit1=None, room2=None, exit2=None, solved=False):
     '''Creates exits between 2 rooms, can be automated by feeding both rooms and both exit names'''
